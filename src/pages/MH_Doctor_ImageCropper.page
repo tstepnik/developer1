@@ -1,0 +1,51 @@
+<apex:page docType="html-5.0" controller="MH_Doctor_ImageController" >
+    <apex:form >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.12/js/jquery.Jcrop.min.js"></script>
+        <input type='file' id="imgInp" />
+        <img id="target" class="crop" src="#" alt="your image" style="border:1px solid;display:none;"  />
+        <canvas id="preview" width="150" height="150" style="border:1px solid; overflow:hidden;display:none;"></canvas><br/>
+        <apex:commandButton value="Save Image" onclick="saveImage();return false;" />
+    </apex:form>
+    <script type="text/javascript">
+        let canvas,fileName;
+        $("#imgInp").change(function(){
+            console.log(this);
+            readURL(this);
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                $("#target").css("display", "block");
+                $("#preview").css("display", "block");
+                fileName = input.files[0].name;
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#target').attr('src', e.target.result);
+                    $('#target').Jcrop({
+                        onChange : updatePreview,
+                        onSelect : updatePreview,
+                        aspectRatio : 1
+                    });
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function updatePreview(c) {
+            if(parseInt(c.w) > 0) {
+                // Show image preview
+                let imageObj = $("#target")[0];
+                canvas = $("#preview")[0];
+                let context = canvas.getContext("2d");
+                context.drawImage(imageObj, c.x, c.y, c.w, c.h, 0, 0, canvas.width, canvas.height);
+            }
+        };
+        function onSaveResult(result, event) {
+            alert('File was saved as: '+result);
+        }
+        function saveImage(){
+            let p1 = canvas.toDataURL("image/png").match(/data:(.+);base64,(.+)/);
+            console.log(p1[2]);
+            {!$RemoteAction.MH_Doctor_ImageController.saveImage}(fileName, p1[1], p1[2], onSaveResult);
+        }
+    </script>
+</apex:page>

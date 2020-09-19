@@ -1,0 +1,3 @@
+<apex:page id="MH_Doctor_ExportJSON" controller="MH_Doctor_SearchController" cache="true" contentType="application/json#Doctors_{!TODAY()}.txt; charset=utf-8">
+{!jsonString}
+</apex:page>

@@ -1,0 +1,7 @@
+<apex:page id="MH_Doctor_ExportXLS" controller="MH_Doctor_SearchController" cache="true" contentType="text/csv#Doctors_{!TODAY()}.xls">
+{!$ObjectType.Doctor__c.fields.Name.Label}{!$Label.Doctor_CSV_Separator}{!$ObjectType.Doctor__c.fields.LastName__c.Label}{!$Label.Doctor_CSV_Separator}{!$ObjectType.Doctor__c.fields.Country__c.Label}
+
+    <apex:repeat value="{!doctors}" var="doctor">
+"{!doctor.Name}"{!$Label.Doctor_CSV_Separator}"{!doctor.LastName__c}"{!$Label.Doctor_CSV_Separator}"{!doctor.Country__c}"
+    </apex:repeat>
+</apex:page>

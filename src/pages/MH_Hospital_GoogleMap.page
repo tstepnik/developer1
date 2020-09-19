@@ -1,0 +1,48 @@
+<apex:page id="MH_Hospital_GoogleMap" standardController="Hospital__c">
+
+    <style>
+        #map{
+            width: 100%;
+            height: 450px;
+        }
+        .invalid{
+            height: 50px !important;
+            text-align:center;
+            font-size: 18px;
+            font-weight:700;
+        }
+
+    </style>
+    <div id="map"></div>
+    <script language="JavaScript">
+        function initMap() {
+            const geocoder = new google.maps.Geocoder();
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13
+            });
+            geocodeAddress(geocoder, map);
+        }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            const address = "{!Hospital__c.Country__c}"+"{!Hospital__c.Town__c} "+"{!Hospital__c.Street__c}" +" {!Hospital__c.Street_Number__c}";
+            if (address.length < 2){
+                const msg = document.getElementById('map').innerHTML = "No address found for "+"{!Hospital__c.Name}, if you fill address fields here will be displayed google map with your hospital."
+                msg.classList.add("invalid");
+            }else{
+                geocoder.geocode({
+                    'address': address
+                }, function(results, status) {
+                    if (status === 'OK') {
+                        resultsMap.setCenter(results[0].geometry.location);
+                        const marker = new google.maps.Marker({
+                            map: resultsMap,
+                            position: results[0].geometry.location
+                        });
+                    } else {}
+                });
+            }
+        }
+
+    </script>
+    <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUbtDTuaEVxd_wXmTYIqe8YtlvfWv6BlY&callback=initMap"/>
+</apex:page>

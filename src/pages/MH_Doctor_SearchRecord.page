@@ -1,0 +1,66 @@
+<apex:page controller="MH_Doctor_SearchController">
+    <apex:form id="form">
+        <apex:pageBlock >
+            <apex:pageMessages id="messages"></apex:pageMessages>
+            <apex:pageBlockSection columns="2" title="{!$Label.doctor_search_form_title}" id="search-form">
+
+                <apex:inputField value="{!searchedDoctor.Name}"/>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="{!$Label.MH_Doctor_Email}"/>
+                    <apex:inputField value="{!searchedDoctor.Search_Email__c}" id="email"/>
+                </apex:pageBlockSectionItem>
+
+                <apex:inputField value="{!searchedDoctor.LastName__c}" id="doctorLN"/>
+                <apex:inputField value="{!searchedDoctor.Country__c}"/>
+
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection columns="1">
+                <apex:pageBlockSectionItem >
+                    <apex:outputPanel >
+                        <apex:actionStatus id="spinner">
+
+                        </apex:actionStatus>
+                        <div style="text-align: center; margin-right: 2rem">
+                            <apex:commandButton value="{!$Label.Button_for_search_doctor}" action="{!searchDoctors}" status="status" reRender="form"/>
+                            <apex:commandButton value="{!$Label.Doctor_CSV}" action="{!downloadCSVFile}"/>
+                            <apex:commandButton value="{!$Label.Doctor_XLS}" action="{!downloadXLSFile}"/>
+                            <apex:commandButton value="{!$Label.Doctor_JSON}" action="{!downloadJSONFile}"/>
+                            <apex:commandButton value="{!$Label.Button_for_clear_data}" action="{!clearData}"
+                                                immediate="true"
+                                                reRender="search-form, contact-table, messages, email"/>
+                        </div>
+                    </apex:outputPanel>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="{!$Label.doctor_search_results_title}" columns="1" id="contact-table">
+                <apex:pageBlockTable value="{!doctors}" var="doctor">
+                    <apex:column >
+                        <apex:facet name="header">{!$Label.doctor_tsearch_table_header_action}</apex:facet>
+                            <apex:commandLink value="{!$Label.view_doctor_record}"
+                                              onClick="window.open('/{!doctor.id}')"/>
+                                {!$Label.view_edit_separator}
+                            <apex:commandLink value="{!$Label.edit_doctor_record}"
+                                              onclick="window.open('/{!doctor.id}/e?retURL={!doctor.id}')"/>
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">{!$Label.doctor_full_name}</apex:facet>
+                            {!doctor.Full_Name__c}
+                    </apex:column>
+
+                    <apex:column >
+                        <apex:facet name="header">{!$Label.doctor_email}</apex:facet>
+                            {!doctor.Email__c}
+                    </apex:column>
+
+                    <apex:column >
+                        <apex:facet name="header">{!$Label.doctor_country}</apex:facet>
+                            {!doctor.Country__c}
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <c:MH_Spinner id="searchSpinner"/>
+    </apex:form>
+</apex:page>

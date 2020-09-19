@@ -1,0 +1,35 @@
+<apex:page id="MH_Doctor_EditRecord" standardController="Doctor__c">
+    <apex:form >
+        <apex:pageBlock title="{!$Label.Edit}">
+            <apex:pageMessages ></apex:pageMessages>
+            <apex:pageBlockSection columns="1" >
+
+                    <apex:inputField value="{!Doctor__c.Name}"/>
+                    <apex:inputField value="{!Doctor__c.LastName__c}"/>
+                    <apex:inputField value="{!Doctor__c.Birthday__c}"/>
+                    <apex:inputField value="{!Doctor__c.Country__c}"/>
+                    <apex:inputField value="{!Doctor__c.Work_Phone__c}"/>
+                    <apex:inputField value="{!Doctor__c.Email__c}"/>
+                    <apex:inputField value="{!Doctor__c.Town__c}"/>
+                    <apex:inputField value="{!Doctor__c.Street__c}"/>
+                    <apex:inputField value="{!Doctor__c.Street_Number__c}"/>
+                    <apex:inputField value="{!Doctor__c.House_Number__c}"/>
+                    <apex:inputField value="{!Doctor__c.Postal_Code__c}"/>
+                    <apex:inputField value="{!Doctor__c.Private_Phone__c}"/>
+                    <apex:inputField value="{!Doctor__c.License_Number__c}"/>
+                    <apex:inputField value="{!Doctor__c.Is_Available__c}"/>
+                    <apex:inputField value="{!Doctor__c.Position__c}"/>
+                    <apex:inputField value="{!Doctor__c.Available_Date__c}"/>
+                    <apex:inputField value="{!Doctor__c.Title__c}"/>
+
+                    <apex:outputPanel >
+                    <div style="display: flex; margin-left: 20rem">
+                            <apex:commandButton value="{!$Label.doctor_save_button}" action="{!save}"/>
+                            <apex:commandButton value="{!$Label.doctor_cancel_button}" action="{!cancel}"/>
+                    </div>
+                    </apex:outputPanel>
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
